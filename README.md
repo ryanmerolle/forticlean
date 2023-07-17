@@ -1,5 +1,14 @@
 # FORTICLEAN
 
+## Features
+
+- Trim spaces at the end of a line
+- Delete config sections
+- Sort config sections
+- Sort config sections 1 level down
+- Colored Logs
+- Command line arguments to specify config, path, etc **COMING SOON**
+
 ## Getting Started
 
 Clone the repo, move to the directory & run one of the below:

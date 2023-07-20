@@ -1,3 +1,0 @@
-coloredlogs
-sourcery-analytics
-sourcery-cli

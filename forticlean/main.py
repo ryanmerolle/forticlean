@@ -1,50 +1,13 @@
-import logging
-from pathlib import Path
+import typer
 
-import coloredlogs
-
-CONFIG_SECTIONS_TO_SORT = (
-    "config firewall address",
-    "config firewall addrgroup",
-    "config firewall internet-service-name",
-    "config router community-list",
-    "config router route-map",
-    "config system interface",
-    "config system zone",
+from .constants import (
+    CONFIG_SECTIONS_TO_DELETE,
+    CONFIG_SECTIONS_TO_SORT,
+    CONFIG_SUBSECTIONS_TO_SORT,
+    FILE_PATH,
+    NEW_FILE_PATH,
 )
-CONFIG_SUBSECTIONS_TO_SORT = {
-    "config router bgp": ["config neighbor", "config network"],
-}
-FILE_PATH = "config.cfg"
-NEW_FILE_PATH = "sorted_config.cfg"
-
-CONFIG_SECTIONS_TO_DELETE = ("config vpn certificate local",)
-
-# Logging setup
-logging.basicConfig(level=logging.INFO)
-logging.getLogger(name="FortiCleaner")
-coloredlogs.install(logging=logging)
-
-
-def read_file(file_path_to_read_from: str) -> str:
-    config_file = Path(file_path_to_read_from)
-    if config_file.exists():
-        logging.info(f"File '{file_path_to_read_from}' opened successfully")
-        return config_file.read_text(encoding="utf-8")
-    else:
-        logging.error(f"Error: File '{file_path_to_read_from}' not found")
-        return ""
-
-
-def write_file(content: list[str], file_path_to_write_to: str):
-    out_file = Path(file_path_to_write_to)
-    try:
-        out_file.write_text("\n".join(content), encoding="utf-8")
-        logging.info(f"File '{file_path_to_write_to}' written successfully")
-    except PermissionError:
-        logging.error(
-            f"Error: Permission denied to open file '{file_path_to_write_to}'"
-        )
+from .utils import logging, read_file, write_file
 
 
 def delete_sections(
@@ -118,8 +81,7 @@ def sort_section(sorted_config, config, config_section, indentation):
     success_log_msg = (
         f"Section '{config_section}' was {'SORTED' if is_sorted else 'NOT SORTED'}"
     )
-    append_sorted_sections(sorted_config, sorted_items,
-                           indentation, success_log_msg)
+    append_sorted_sections(sorted_config, sorted_items, indentation, success_log_msg)
 
 
 def sort_subsection(sorted_config, config, config_section, indentation):
@@ -132,8 +94,7 @@ def sort_subsection(sorted_config, config, config_section, indentation):
                 and not config[0].startswith(f"{indentation}config ")
                 and config[0] != "    end"
             ):
-                subsections.append(read_section(
-                    config, f"{indentation}    next"))
+                subsections.append(read_section(config, f"{indentation}    next"))
 
             sorted_items, is_sorted = sort_config_sections(subsections)
             sorted_config.append(child_section_name)
@@ -175,16 +136,15 @@ def sort_config(
     return sorted_config
 
 
-def main():
+def main(file_path: str = typer.Option(FILE_PATH, "--file_path", "-f")):
     config_lines = read_file(FILE_PATH).split("\n")
     config_lines = delete_sections(config_lines, CONFIG_SECTIONS_TO_DELETE)
     config_lines = remove_trailing_spaces(config_lines)
     config_lines = sort_config(config_lines, CONFIG_SECTIONS_TO_SORT)
-    config_lines = sort_config(
-        config_lines, CONFIG_SUBSECTIONS_TO_SORT, "    ", True)
+    config_lines = sort_config(config_lines, CONFIG_SUBSECTIONS_TO_SORT, "    ", True)
 
     write_file(config_lines, NEW_FILE_PATH)
 
 
 if __name__ == "__main__":
-    main()
+    typer.run(main)

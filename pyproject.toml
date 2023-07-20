@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "forticlean"
+version = "1.0.0"
+description = "Clean & sort FortiOS config files for operations & automation tasks."
+authors = ["Ryan Merolle"]
+readme = "README.md"
+packages = [{include = "forticlean"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+typer = {extras = ["all"], version = "*"}
+coloredlogs = "*"
+
+[tool.poetry.scripts]
+forticlean = "forticlean.main:main"
+
+[tool.poetry.group.dev.dependencies]
+autoflake = "*"
+bandit = "*"
+black = "*"
+debugpy = "*"
+flake8 = "*"
+invoke = "*"
+isort = "*"
+mypy = "*"
+mypy-extensions = "*"
+pre-commit = "*"
+pytest = "*"
+ruff = "*"
+sourcery-analytics = "*"
+sourcery-cli = "*"
+toml = "*"
+yamllint = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.bandit]
+exclude_dirs = ["venv", ".venv"]
+
+[tool.black]
+exclude = "(venv, .venv)"
+
+[tool.isort]
+profile = "black"
+skip = "venv, .venv"
+balanced_wrapping = true
+atomic = true
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.pydocstyle]
+inherit = false
+[pydocstyle]
+convention = "google"
+match = '((?!excluded_file).)*\.py'
+match_dir = '^(?!(venv|.venv)).*'
+
+[tool.mypy]
+exclude = ['venv', '.venv']
+pretty = true
+ignore_missing_imports = true

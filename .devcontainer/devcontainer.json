@@ -8,8 +8,8 @@
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
-    "ghcr.io/devcontainers-contrib/features/poetry:2": {},
-    "ghcr.io/jungaretti/features/make:1": {}
+    "ghcr.io/devcontainers-contrib/features/poetry:2": {}
+    //"ghcr.io/jungaretti/features/make:1": {}
   },
   "mounts": [
     "source=forticlean-bashhistory,target=/commandhistory,type=volume",

@@ -14,7 +14,7 @@
   "mounts": [
     "source=forticlean-bashhistory,target=/commandhistory,type=volume",
     "source=forticlean_devcontainer,target=/home/vscode/.vscode-server/extensions",
-    "source=${env:HOME}${env:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached,readonly"
+    "source=${env:HOME}${env:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
   ],
 
   // Use 'postCreateCommand' to run commands after the container is created.
@@ -24,7 +24,8 @@
   // "forwardPorts": [],
 
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  // "remoteUser": "vscode",
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
 
   // Configure tool-specific properties.
   "customizations": {

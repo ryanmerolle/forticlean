@@ -13,7 +13,8 @@
   },
   "mounts": [
     "source=forticlean-bashhistory,target=/commandhistory,type=volume",
-    "source=forticlean_devcontainer,target=/home/vscode/.vscode-server/extensions"
+    "source=forticlean_devcontainer,target=/home/vscode/.vscode-server/extensions",
+    "source=${env:HOME}${env:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached,readonly"
   ],
 
   // Use 'postCreateCommand' to run commands after the container is created.

@@ -18,7 +18,7 @@
   ],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "poetry install",
+  "postCreateCommand": "poetry install --with dev && exit",
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
@@ -31,10 +31,13 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "[python]": {},
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter"
+        },
         "python.formatting.provider": "black"
       },
       "extensions": [
+        "ms-python.python",
         "Codium.codium",
         "GSGBen.fortigate-fortios-syntax",
         "GitHub.copilot",
@@ -54,9 +57,6 @@
         "ms-python.isort",
         "ms-python.mypy-type-checker",
         "ms-python.pylint",
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.vscode-pylance-typechecking",
         "mutantdino.resourcemonitor",
         "paulomenezes.duplicated-code",
         "piotrpalarz.vscode-gitignore-generator",

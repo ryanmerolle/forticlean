@@ -10,6 +10,10 @@
 			"ghcr.io/jungaretti/features/make:1": {}
 		}
 	},
+	"runArgs": [
+		"-v", "${localEnv:USER}_devcontainer-extensions:/home/vscode/.vscode-server/extensions",
+		"-v", "${localEnv:USER}_devcontainer-commandhistory:/commandhistory"
+	],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -31,19 +35,32 @@
 			},
 			"extensions": [
 				"Codium.codium",
+				"GSGBen.fortigate-fortios-syntax",
 				"GitHub.copilot",
 				"GitHub.copilot-chat",
 				"GitHub.copilot-labs",
+				"GitHub.vscode-github-actions",
+				"GitHub.vscode-pull-request-github",
 				"Gruntfuggly.todo-tree",
+				"KevinRose.vsc-python-indent",
 				"SonarSource.sonarlint-vscode",
 				"Tyriar.sort-lines",
 				"charliermarsh.ruff",
+				"esbenp.prettier-vscode",
+				"hbenl.vscode-test-explorer",
+				"ms-python.black-formatter",
+				"ms-python.flake8",
+				"ms-python.isort",
+				"ms-python.mypy-type-checker",
+				"ms-python.pylint",
 				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"ms-toolsai.jupyter",
+				"ms-python.vscode-pylance-typechecking",
 				"mutantdino.resourcemonitor",
+				"paulomenezes.duplicated-code",
 				"piotrpalarz.vscode-gitignore-generator",
-				"sourcery.sourcery"
+				"sourcery.sourcery",
+				"yzhang.markdown-all-in-one"
 			]
 		}
 	 }

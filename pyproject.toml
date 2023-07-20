@@ -9,7 +9,7 @@ packages = [{include = "forticlean"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 typer = {extras = ["all"], version = "*"}
-coloredlogs = "*"
+rich = "*"
 
 [tool.poetry.scripts]
 forticlean = "forticlean.main:main"

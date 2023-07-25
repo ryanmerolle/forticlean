@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 typer = {extras = ["all"], version = "*"}
 rich = "*"
 

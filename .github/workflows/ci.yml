@@ -35,21 +35,21 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    name: Runs application tests
+    name: Application tests
     needs: run-lint
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
     steps:
       - id: git-checkout
         name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v2
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
         with:
-          python-version: 3.11
-
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
+          virtualenvs-create: false
 
       - name: Cache dependencies
         uses: actions/cache@v2

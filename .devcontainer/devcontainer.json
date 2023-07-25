@@ -32,30 +32,33 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "extensions.autoCheckUpdates": true,
-        "extensions.ignoreRecommendations": true,
-        "files.insertFinalNewline": true,
-        "editor.bracketPairColorization.enabled": true,
         "[python]": {
           "editor.defaultFormatter": "ms-python.black-formatter",
           "venvFolders": ["venv", ".venv"],
           "editor.formatOnSave": true
         },
-        "python.linting.enabled": true,
-        "python.formatting.provider": "black",
-        "python.analysis.typeCheckingMode": "strict",
+        "editor.bracketPairColorization.enabled": true,
+        "extensions.autoCheckUpdates": true,
+        "extensions.ignoreRecommendations": true,
+        "files.insertFinalNewline": true,
         "python.analysis.extraPaths": [
           "/workspaces/forticlean",
           "/workspaces/forticlean/.venv/lib/python3.11/site-packages"
         ],
+        "python.analysis.typeCheckingMode": "strict",
         "python.autoComplete.extraPaths": [
           "/workspaces/forticlean",
           "/workspaces/forticlean/.venv/lib/python3.11/site-packages"
         ],
-        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "black",
+        "python.linting.enabled": true,
         "python.linting.lintOnSave": true,
+        "python.linting.pylintEnabled": true,
         "python.pythonPath": "/workspaces/forticlean/.venv/bin/python3",
         "python.terminal.activateEnvironment": true,
+        "python.testing.pytestArgs": ["tests"],
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
         "python.venvPath": "/workspaces/forticlean/.venv"
       },
       "extensions": [

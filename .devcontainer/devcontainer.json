@@ -9,6 +9,7 @@
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers-contrib/features/poetry:2": {}
+    //ghcr.io/devcontainers-contrib/features/ruff:1": {}
     //"ghcr.io/jungaretti/features/make:1": {}
   },
   "mounts": [
@@ -35,14 +36,27 @@
         "extensions.ignoreRecommendations": true,
         "files.insertFinalNewline": true,
         "editor.bracketPairColorization.enabled": true,
-
         "[python]": {
           "editor.defaultFormatter": "ms-python.black-formatter",
           "venvFolders": ["venv", ".venv"],
           "editor.formatOnSave": true
         },
         "python.linting.enabled": true,
-        "python.formatting.provider": "black"
+        "python.formatting.provider": "black",
+        "python.analysis.typeCheckingMode": "strict",
+        "python.analysis.extraPaths": [
+          "/workspaces/forticlean",
+          "/workspaces/forticlean/.venv/lib/python3.11/site-packages"
+        ],
+        "python.autoComplete.extraPaths": [
+          "/workspaces/forticlean",
+          "/workspaces/forticlean/.venv/lib/python3.11/site-packages"
+        ],
+        "python.linting.pylintEnabled": true,
+        "python.linting.lintOnSave": true,
+        "python.pythonPath": "/workspaces/forticlean/.venv/bin/python3",
+        "python.terminal.activateEnvironment": true,
+        "python.venvPath": "/workspaces/forticlean/.venv"
       },
       "extensions": [
         "ms-python.python",

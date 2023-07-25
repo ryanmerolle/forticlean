@@ -48,8 +48,12 @@ balanced_wrapping = true
 atomic = true
 line_length = 100
 
+[tool.flake8]
+line_length = 100
+
 [tool.ruff]
 line-length = 100
+exclude = [".venv"]
 
 [tool.ruff.pydocstyle]
 convention = "google"

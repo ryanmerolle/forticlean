@@ -137,7 +137,7 @@ def sort_config(
 
 
 def main(file_path: str = typer.Option(FILE_PATH, "--file_path", "-f")):
-    config_lines = read_file(FILE_PATH).split("\n")
+    config_lines = read_file(FILE_PATH)
     config_lines = delete_sections(config_lines, CONFIG_SECTIONS_TO_DELETE)
     config_lines = remove_trailing_spaces(config_lines)
     config_lines = sort_config(config_lines, CONFIG_SECTIONS_TO_SORT)

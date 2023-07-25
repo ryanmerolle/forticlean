@@ -11,14 +11,14 @@ logging.basicConfig(
 logger = logging.getLogger("FortiCleaner")
 
 
-def read_file(file_path_to_read_from: str) -> str:
+def read_file(file_path_to_read_from: str) -> list[str]:
     config_file = Path(file_path_to_read_from)
     if config_file.exists():
         logger.info(f"File '{file_path_to_read_from}' opened successfully")
-        return config_file.read_text(encoding="utf-8")
+        return config_file.read_text(encoding="utf-8").split("\n")
     else:
         logger.error(f"Error: File '{file_path_to_read_from}' not found")
-        return ""
+        return []
 
 
 def write_file(content: list[str], file_path_to_write_to: str):

@@ -18,7 +18,7 @@
   ],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "poetry install --with dev && exit",
+  "postCreateCommand": "poetry config virtualenvs.in-project true && poetry install --with dev && exit",
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
@@ -31,9 +31,17 @@
   "customizations": {
     "vscode": {
       "settings": {
+        "extensions.autoCheckUpdates": true,
+        "extensions.ignoreRecommendations": true,
+        "files.insertFinalNewline": true,
+        "editor.bracketPairColorization.enabled": true,
+
         "[python]": {
-          "editor.defaultFormatter": "ms-python.black-formatter"
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "venvFolders": ["venv", ".venv"],
+          "editor.formatOnSave": true
         },
+        "python.linting.enabled": true,
         "python.formatting.provider": "black"
       },
       "extensions": [

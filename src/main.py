@@ -1,13 +1,13 @@
 import typer
 
-from .constants import (
+from constants import (
     CONFIG_SECTIONS_TO_DELETE,
     CONFIG_SECTIONS_TO_SORT,
     CONFIG_SUBSECTIONS_TO_SORT,
-    FILE_PATH,
-    NEW_FILE_PATH,
+    SRC_FILE_PATH,
+    DST_FILE_PATH,
 )
-from .utils import logging, read_file, write_file
+from utils import logging, read_file, write_file
 
 
 def delete_sections(
@@ -136,14 +136,17 @@ def sort_config(
     return sorted_config
 
 
-def main(file_path: str = typer.Option(FILE_PATH, "--file_path", "-f")):
-    config_lines = read_file(FILE_PATH)
+def main(
+    src_file_path: str = typer.Argument(None),
+    dst_file_path: str = typer.Option(DST_FILE_PATH, "--dst_file_path", "-d"),
+):
+    config_lines = read_file(src_file_path)
     config_lines = delete_sections(config_lines, CONFIG_SECTIONS_TO_DELETE)
     config_lines = remove_trailing_spaces(config_lines)
     config_lines = sort_config(config_lines, CONFIG_SECTIONS_TO_SORT)
     config_lines = sort_config(config_lines, CONFIG_SUBSECTIONS_TO_SORT, "    ", True)
 
-    write_file(config_lines, NEW_FILE_PATH)
+    write_file(config_lines, dst_file_path)
 
 
 if __name__ == "__main__":

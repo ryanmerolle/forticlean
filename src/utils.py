@@ -19,7 +19,7 @@ def read_file(file_path_to_read_from: str) -> list[str]:
         return config.split("\n")
     else:
         logger.error(f"Error: File '{file_path_to_read_from}' not found")
-        return []
+        exit(1)
 
 
 def write_file(content: list[str], file_path_to_write_to: str):

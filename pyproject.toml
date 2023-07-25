@@ -46,9 +46,10 @@ profile = "black"
 skip = "venv, .venv"
 balanced_wrapping = true
 atomic = true
+line_length = 100
 
 [tool.ruff]
-line-length = 88
+line-length = 100
 
 [tool.ruff.pydocstyle]
 convention = "google"

@@ -49,7 +49,7 @@ jobs:
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1
         with:
-          virtualenvs-create: false
+          virtualenvs-create: true
 
       - name: Cache dependencies
         uses: actions/cache@v3

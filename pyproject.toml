@@ -4,7 +4,7 @@ version = "1.0.0"
 description = "Clean & sort FortiOS config files for operations & automation tasks."
 authors = ["Ryan Merolle"]
 readme = "README.md"
-packages = [{include = "forticlean"}]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -12,7 +12,7 @@ typer = {extras = ["all"], version = "*"}
 rich = "*"
 
 [tool.poetry.scripts]
-forticlean = "forticlean.main:main"
+forticlean = "src.main:main"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"

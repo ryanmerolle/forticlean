@@ -15,7 +15,8 @@ def read_file(file_path_to_read_from: str) -> list[str]:
     config_file = Path(file_path_to_read_from)
     if config_file.exists():
         logger.info(f"File '{file_path_to_read_from}' opened successfully")
-        return config_file.read_text(encoding="utf-8").split("\n")
+        config = config_file.read_text(encoding="utf-8")
+        return config.split("\n")
     else:
         logger.error(f"Error: File '{file_path_to_read_from}' not found")
         return []

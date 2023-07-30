@@ -37,7 +37,11 @@
           "venvFolders": ["venv", ".venv"],
           "editor.formatOnSave": true
         },
+        "editor.rulers": [80,100],
         "editor.bracketPairColorization.enabled": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        },
         "extensions.autoCheckUpdates": true,
         "extensions.ignoreRecommendations": true,
         "files.insertFinalNewline": true,

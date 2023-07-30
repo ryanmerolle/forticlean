@@ -1,14 +1,18 @@
 import typer
 
-from constants import (
+from src.constants import (
     CONFIG_SECTIONS_TO_DELETE,
     CONFIG_SECTIONS_TO_SORT,
     CONFIG_SUBSECTIONS_TO_SORT,
-    SRC_FILE_PATH,
     DST_FILE_PATH,
+    SRC_FILE_PATH,
 )
-from utils import logging, read_file, write_file
+from src.utils import logging, read_file, write_file
 
+app = typer.Typer(
+    help="Clean & sort FortiOS config files.",
+    add_completion=True,
+)
 
 def delete_sections(
     config_lines: list[str], sections_to_delete: list[str]
@@ -136,6 +140,7 @@ def sort_config(
     return sorted_config
 
 
+@app.command()
 def main(
     src_file_path: str = typer.Argument(None),
     dst_file_path: str = typer.Option(DST_FILE_PATH, "--dst_file_path", "-d"),
@@ -150,4 +155,4 @@ def main(
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    app()

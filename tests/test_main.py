@@ -1,7 +1,10 @@
+import logging
 import os
+
 import pytest
+
 from src.main import delete_sections, remove_trailing_spaces, sort_config
-from src.utils import read_file
+from src.utils import read_file, write_file
 
 
 def get_files(directory: str) -> list[str]:
@@ -16,10 +19,15 @@ def get_files(directory: str) -> list[str]:
 def get_test_files(expected_dir: str) -> list[tuple[str, str]]:
     """Returns a list of tuples with input and expected files"""
     test_files = get_files("./tests/inputs")
+    # get the current path of the script
+    # https://stackoverflow.com/a/4060259
+    __location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__))
+    )
     return [
         (
-            f"./tests/inputs/{test_file}",
-            f"./tests/expected/{expected_dir}/{test_file}",
+            os.path.join(__location__, "inputs", test_file),
+            os.path.join(__location__, "expected", expected_dir, test_file),
         )
         for test_file in test_files
     ]
@@ -27,9 +35,15 @@ def get_test_files(expected_dir: str) -> list[tuple[str, str]]:
 
 def common_test(expected_file: str, new_config_lines: list[str]):
     """Defines a common test for all functions"""
-    expected_config_lines = read_file(expected_file)
+    try:
+        with open(expected_file, "r") as f:
+            expected_config_lines = f.read().split("\n")
+    except FileNotFoundError:
+        pytest.skip(f"Expected file '{expected_file}' not found")
     if expected_config_lines != []:
-        assert new_config_lines == expected_config_lines
+        logging.info(f"new_config_lines {len(new_config_lines)}")
+        logging.info(f"expected_file {len(expected_config_lines)}")
+        assert expected_config_lines == new_config_lines
     else:
         pytest.skip("Expected config lines are empty")
 

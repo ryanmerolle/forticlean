@@ -10,13 +10,14 @@
 		"ghcr.io/devcontainers-contrib/features/bandit:2": {},
 		"ghcr.io/devcontainers-contrib/features/black:2": {},
 		"ghcr.io/devcontainers-contrib/features/flake8:2": {},
+		"ghcr.io/devcontainers-contrib/features/invoke:1": {},
 		"ghcr.io/devcontainers-contrib/features/isort:2": {},
 		"ghcr.io/devcontainers-contrib/features/mypy:2": {},
+		"ghcr.io/devcontainers-contrib/features/poetry:2": {},
 		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
 		"ghcr.io/devcontainers-contrib/features/pylint:2": {},
 		"ghcr.io/devcontainers-contrib/features/ruff:1": {},
-		"ghcr.io/devcontainers-contrib/features/yamllint:2": {},
-		"ghcr.io/devcontainers-contrib/features/poetry:2": {}
+		"ghcr.io/devcontainers-contrib/features/yamllint:2": {}
 		//"ghcr.io/jungaretti/features/make:1": {}
 	},
 
@@ -82,7 +83,6 @@
           "GitHub.vscode-pull-request-github",
           "Gruntfuggly.todo-tree",
           "KevinRose.vsc-python-indent",
-          "SonarSource.sonarlint-vscode",
           "Tyriar.sort-lines",
           "charliermarsh.ruff",
           "esbenp.prettier-vscode",

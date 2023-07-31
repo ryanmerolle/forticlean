@@ -1,11 +1,10 @@
+"""Invoke file to define all tasks for this project."""
 from invoke import task
 
 
 @task()
 def fmt(ctx):
-    """
-    format project (check only)
-    """
+    """Format project (check only)."""
     fmt_black(ctx)
     fmt_isort(ctx)
     fmt_autoflake(ctx)
@@ -13,10 +12,7 @@ def fmt(ctx):
 
 @task
 def fmt_black(ctx, check=False):
-    """
-    black (default: check)
-    """
-
+    """Run black (default: check)."""
     if check:
         print("## black (check) ##")
         ctx.run("black . --check")
@@ -28,9 +24,7 @@ def fmt_black(ctx, check=False):
 
 @task
 def fmt_autoflake(ctx, check=False):
-    """
-    autoflake (default: check)
-    """
+    """Run autoflake (default: check)."""
     if check:
         print("## autoflake (check) ##")
         ctx.run(
@@ -46,9 +40,7 @@ def fmt_autoflake(ctx, check=False):
 
 @task
 def fmt_isort(ctx, check=False):
-    """
-    isort (default: check)
-    """
+    """Run isort (default: check)."""
     if check:
         print("## isort (check) ##")
         ctx.run("isort . -c")
@@ -60,9 +52,7 @@ def fmt_isort(ctx, check=False):
 
 @task
 def lint(ctx):
-    """
-    Lint
-    """
+    """Lint."""
     lint_bandit(ctx)
     lint_flake8(ctx)
     lint_pydoc(ctx)
@@ -72,9 +62,7 @@ def lint(ctx):
 
 @task
 def lint_bandit(ctx):
-    """
-    bandit
-    """
+    """Run bandit."""
     print("## bandit ##")
     ctx.run('bandit -r . -c "pyproject.toml"')
     print()
@@ -82,9 +70,7 @@ def lint_bandit(ctx):
 
 @task
 def lint_flake8(ctx):
-    """
-    flake8
-    """
+    """Run flake8."""
     print("## flake8 ##")
     ctx.run("flake8 .")
     print()
@@ -92,9 +78,7 @@ def lint_flake8(ctx):
 
 @task
 def lint_pydoc(ctx):
-    """
-    pydocstyle
-    """
+    """Run pydocstyle."""
     print("## pydocstyle ##")
     ctx.run("pydocstyle .")
     print()
@@ -102,9 +86,7 @@ def lint_pydoc(ctx):
 
 @task
 def lint_yaml(ctx):
-    """
-    yamllint
-    """
+    """Run yamllint."""
     print("## yamllint ##")
     ctx.run("yamllint .")
     print()
@@ -112,9 +94,7 @@ def lint_yaml(ctx):
 
 @task
 def lint_mypy(ctx):
-    """
-    mypy
-    """
+    """Run mypy."""
     print("## mypy ##")
     ctx.run("mypy .")
     print()
@@ -122,8 +102,6 @@ def lint_mypy(ctx):
 
 @task
 def all(ctx):
-    """
-    format & lint project
-    """
+    """Format & lint project."""
     fmt(ctx)
     lint(ctx)

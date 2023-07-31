@@ -11,7 +11,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 
 
 def get_files(directory: str = "./tests/inputs") -> list[str]:
-    """Returns a list of files in a directory"""
+    """Return a list of files in a directory."""
     return [
         f
         for f in os.listdir(directory)
@@ -25,7 +25,7 @@ def common_test(
     optional_var: Optional = None,
     override_name: Optional[str] = None,
 ):
-    """Defines a common test for all functions"""
+    """Define a common test for all functions."""
 
     orginal_config_lines = read_file(os.path.join(__location__, "inputs", test_file))
     function = globals()[function_to_test]
@@ -58,26 +58,20 @@ def common_test(
 
 @pytest.mark.parametrize("test_file", get_files())
 def test_remove_trailing_spaces(test_file: str):
-    """
-    Ensure that the function removes trailing spaces
-    """
+    """Ensure that the function removes trailing spaces."""
     common_test(test_file, remove_trailing_spaces.__name__)
 
 
 @pytest.mark.parametrize("test_file", get_files())
 def test_delete_sections(test_file: str):
-    """
-    Ensure that the function removes user specified sections
-    """
+    """Ensure that the function removes user specified sections."""
     config_sections_to_delete = ["config vpn certificate local"]
     common_test(test_file, delete_sections.__name__, config_sections_to_delete)
 
 
 @pytest.mark.parametrize("test_file", get_files())
 def test_sort_config_sections(test_file: str):
-    """
-    Ensure that the function removes user specified sections
-    """
+    """Ensure that the function removes user specified sections."""
     config_sections_to_sort = [
         "config firewall address",
         "config firewall addrgroup",
@@ -97,12 +91,8 @@ def test_sort_config_sections(test_file: str):
 
 @pytest.mark.parametrize("test_file", get_files())
 def test_sort_config_subsections(test_file: str):
-    """
-    Ensure that the function removes user specified sections
-    """
-    config_subsections_to_sort = {
-        "config router bgp": ["config neighbor", "config network"]
-    }
+    """Ensure that the function removes user specified sections."""
+    config_subsections_to_sort = {"config router bgp": ["config neighbor", "config network"]}
     common_test(
         test_file,
         sort_config.__name__,

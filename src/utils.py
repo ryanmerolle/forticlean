@@ -1,3 +1,4 @@
+"""Support functions for the FortiCleaner script."""
 import logging
 from enum import Enum
 from pathlib import Path
@@ -14,6 +15,8 @@ logger = logging.getLogger("FortiCleaner")
 
 
 class DefaultConfigKey(Enum):
+    """Enum to define the default keys and values."""
+
     CONFIG_SECTIONS_TO_DELETE = []
     CONFIG_SECTIONS_TO_SORT = []
     CONFIG_SUBSECTIONS_TO_SORT = []
@@ -22,6 +25,7 @@ class DefaultConfigKey(Enum):
 
 
 def read_file(file_path_to_read_from: str) -> list[str]:
+    """Read files."""
     config_file = Path(file_path_to_read_from)
     if config_file.exists():
         logger.debug(f"File '{file_path_to_read_from}' opened successfully")
@@ -33,6 +37,7 @@ def read_file(file_path_to_read_from: str) -> list[str]:
 
 
 def write_file(content: list[str], file_path_to_write_to: str):
+    """Write files."""
     out_file = Path(file_path_to_write_to)
     try:
         out_file.write_text("\n".join(content), encoding="utf-8")
@@ -42,6 +47,7 @@ def write_file(content: list[str], file_path_to_write_to: str):
 
 
 def load_app_config() -> dict[str, str]:
+    """Load the forticlean config file."""
     # Load the config file if found in the path the script is being called from
     if Path(".forticleaner").exists():
         config_path = Path(".forticleaner")
@@ -61,9 +67,7 @@ def load_app_config() -> dict[str, str]:
 
     for key in DefaultConfigKey:
         if key.name.lower() not in config:
-            logging.debug(
-                f"Key '{key.name}' NOT in the config file. Defaulting to {key.value}."
-            )
+            logging.debug(f"Key '{key.name}' NOT in the config file. Defaulting to {key.value}.")
             config[key.name.lower()] = key.value
 
     return config

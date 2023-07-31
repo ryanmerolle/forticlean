@@ -13,6 +13,13 @@
 
 Clone the repo, move to the directory & run one of the below:
 
+**Configuration**:
+
+In order of precedence:
+1.) .forticleaner in the directory you are running the script from
+2.) .forticleaner in your home directory
+3.) Default config file included with the package
+
 **Usage**:
 
 ```console

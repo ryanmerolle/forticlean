@@ -1,11 +1,17 @@
+import logging
 import os
+from typing import Optional
+
 import pytest
+
 from src.main import delete_sections, remove_trailing_spaces, sort_config
 from src.utils import read_file
 
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-def get_files(directory: str) -> list[str]:
-    """Returns a list of files in a directory"""
+
+def get_files(directory: str = "./tests/inputs") -> list[str]:
+    """Return a list of files in a directory."""
     return [
         f
         for f in os.listdir(directory)
@@ -13,72 +19,60 @@ def get_files(directory: str) -> list[str]:
     ]
 
 
-def get_test_files(expected_dir: str) -> list[tuple[str, str]]:
-    """Returns a list of tuples with input and expected files"""
-    test_files = get_files("./tests/inputs")
-    return [
-        (
-            f"./tests/inputs/{test_file}",
-            f"./tests/expected/{expected_dir}/{test_file}",
-        )
-        for test_file in test_files
-    ]
+def common_test(
+    test_file: str,
+    function_to_test: str,
+    optional_var: Optional = None,
+    override_name: Optional[str] = None,
+):
+    """Define a common test for all functions."""
 
-
-def common_test(expected_file: str, new_config_lines: list[str]):
-    """Defines a common test for all functions"""
-    expected_config_lines = read_file(expected_file)
-    if expected_config_lines != []:
-        assert new_config_lines == expected_config_lines
+    orginal_config_lines = read_file(os.path.join(__location__, "inputs", test_file))
+    function = globals()[function_to_test]
+    if optional_var is None:
+        new_config_lines = function(orginal_config_lines)
     else:
-        pytest.skip("Expected config lines are empty")
+        if override_name is not None:
+            function_to_test = override_name
+
+        if override_name == "sort_config_subsections":
+            new_config_lines = function(orginal_config_lines, optional_var, "    ", True)
+        else:
+            new_config_lines = function(orginal_config_lines, optional_var)
+
+    expected_file = os.path.realpath(
+        os.path.join(__location__, "expected", function_to_test, test_file)
+    )
+    try:
+        with open(os.path.join(__location__, expected_file), "r") as f:
+            expected_config_lines = f.read().split("\n")
+    except FileNotFoundError:
+        pytest.skip(f"Expected file '{os.path.relpath(expected_file)}' NOT found")
+    if expected_config_lines != []:
+        logging.info(f"new_config_lines {len(new_config_lines)}")
+        logging.info(f"expected_file {len(expected_config_lines)}")
+        assert expected_config_lines == new_config_lines
+    else:
+        pytest.skip("Expected config lines are EMPTY")
 
 
-@pytest.mark.parametrize(
-    (
-        "test_file",
-        "expected_file",
-    ),
-    get_test_files("remove_trailing_spaces"),
-)
-def test_remove_trailing_spaces(test_file: str, expected_file: str):
-    """
-    Ensure that the function removes trailing spaces
-    """
-    orginal_config_lines = read_file(test_file)
-    new_config_lines = remove_trailing_spaces(orginal_config_lines)
-    common_test(expected_file, new_config_lines)
+@pytest.mark.parametrize("test_file", get_files())
+def test_remove_trailing_spaces(test_file: str):
+    """Ensure that the function removes trailing spaces."""
+    common_test(test_file, remove_trailing_spaces.__name__)
 
 
-@pytest.mark.parametrize(
-    (
-        "test_file",
-        "expected_file",
-    ),
-    get_test_files("delete_sections"),
-)
-def test_delete_sections(test_file: str, expected_file: str):
-    """
-    Ensure that the function removes intended sections
-    """
-    CONFIG_SECTIONS_TO_DELETE = ["config vpn certificate local"]
-    orginal_config_lines = read_file(test_file)
-    new_config_lines = delete_sections(orginal_config_lines, CONFIG_SECTIONS_TO_DELETE)
-    common_test(expected_file, new_config_lines)
+@pytest.mark.parametrize("test_file", get_files())
+def test_delete_sections(test_file: str):
+    """Ensure that the function removes user specified sections."""
+    config_sections_to_delete = ["config vpn certificate local"]
+    common_test(test_file, delete_sections.__name__, config_sections_to_delete)
 
 
-@pytest.mark.parametrize(
-    (
-        "test_file",
-        "expected_file",
-    ),
-    get_test_files("sort_config_sections"),
-)
-def test_sort_config_sections(test_file: str, expected_file: str):
-    """
-    Ensure that the function sorts intended sections
-    """
-    CONFIG_SECTIONS_TO_SORT = {
+@pytest.mark.parametrize("test_file", get_files())
+def test_sort_config_sections(test_file: str):
+    """Ensure that the function removes user specified sections."""
+    config_sections_to_sort = [
         "config firewall address",
         "config firewall addrgroup",
         "config firewall internet-service-name",
@@ -86,28 +80,22 @@ def test_sort_config_sections(test_file: str, expected_file: str):
         "config router route-map",
         "config system interface",
         "config system zone",
-    }
-    orginal_config_lines = read_file(test_file)
-    new_config_lines = sort_config(orginal_config_lines, CONFIG_SECTIONS_TO_SORT)
-    common_test(expected_file, new_config_lines)
-
-
-@pytest.mark.parametrize(
-    (
-        "test_file",
-        "expected_file",
-    ),
-    get_test_files("sort_config_subsections"),
-)
-def test_sort_config_subsections(test_file: str, expected_file: str):
-    """
-    Ensure that the function sorts intended subsections
-    """
-    CONFIG_SUBSECTIONS_TO_SORT = {
-        "config router bgp": ["config neighbor", "config network"],
-    }
-    orginal_config_lines = read_file(test_file)
-    new_config_lines = sort_config(
-        orginal_config_lines, CONFIG_SUBSECTIONS_TO_SORT, "    ", True
+    ]
+    common_test(
+        test_file,
+        sort_config.__name__,
+        config_sections_to_sort,
+        "sort_config_sections",
     )
-    common_test(expected_file, new_config_lines)
+
+
+@pytest.mark.parametrize("test_file", get_files())
+def test_sort_config_subsections(test_file: str):
+    """Ensure that the function removes user specified sections."""
+    config_subsections_to_sort = {"config router bgp": ["config neighbor", "config network"]}
+    common_test(
+        test_file,
+        sort_config.__name__,
+        config_subsections_to_sort,
+        "sort_config_subsections",
+    )

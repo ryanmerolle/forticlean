@@ -1,18 +1,26 @@
 [tool.poetry]
 name = "forticlean"
-version = "1.0.0"
-description = "Clean & sort FortiOS config files for operations & automation tasks."
+version = "0.0.0"  # this is a placeholder - version is set in the CI on release
+description = "Clean & sort FortiOS config files."
+homepage = "https://github.com/ryanmerolle/forticlean"
+documentation = "https://github.com/ryanmerolle/forticlean"
 authors = ["Ryan Merolle"]
 readme = "README.md"
 packages = [{include = "src"}]
+keywords = ["fortios", "python"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.9",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 typer = {extras = ["all"], version = "*"}
 rich = "*"
+pyyaml = "*"
 
 [tool.poetry.scripts]
-forticlean = "src.main:main"
+forticlean = "src.main:app"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
@@ -27,8 +35,9 @@ pre-commit = "*"
 pytest = "*"
 ruff = "*"
 sourcery-analytics = "*"
-sourcery-cli = "*"
+#sourcery-cli = "*"
 toml = "*"
+typer-cli = "*"
 yamllint = "*"
 
 [build-system]
@@ -39,7 +48,7 @@ build-backend = "poetry.core.masonry.api"
 exclude_dirs = ["venv", ".venv"]
 
 [tool.black]
-exclude = "(venv, .venv)"
+line-length = 100
 
 [tool.isort]
 profile = "black"
@@ -53,7 +62,6 @@ line_length = 100
 
 [tool.ruff]
 line-length = 100
-exclude = [".venv"]
 
 [tool.ruff.pydocstyle]
 convention = "google"
@@ -69,3 +77,7 @@ match_dir = '^(?!(venv|.venv)).*'
 exclude = ['venv', '.venv']
 pretty = true
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "WARN"

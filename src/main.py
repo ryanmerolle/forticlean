@@ -14,8 +14,9 @@ app = typer.Typer(
     add_completion=True,
 )
 
+
 def delete_sections(
-    config_lines: list[str], sections_to_delete: list[str]
+    config_lines: list[str], sections_to_delete: list[str] = CONFIG_SECTIONS_TO_DELETE
 ) -> list[str]:
     new_lines = []
     section = ""

@@ -4,8 +4,7 @@ from typing import Optional
 
 import pytest
 
-from src.constants import CONFIG_SECTIONS_TO_SORT, CONFIG_SUBSECTIONS_TO_SORT
-from src.main import *
+from src.main import delete_sections, remove_trailing_spaces, sort_config
 from src.utils import read_file
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -21,16 +20,26 @@ def get_files(directory: str = "./tests/inputs") -> list[str]:
 
 
 def common_test(
-    test_file: str, function_to_test: str, optional_list: Optional[list] = []
+    test_file: str,
+    function_to_test: str,
+    optional_var: Optional = None,
+    override_name: Optional[str] = None,
 ):
     """Defines a common test for all functions"""
 
     orginal_config_lines = read_file(os.path.join(__location__, "inputs", test_file))
     function = globals()[function_to_test]
-    if optional_list == []:
+    if optional_var is None:
         new_config_lines = function(orginal_config_lines)
     else:
-        new_config_lines = function(orginal_config_lines, optional_list)
+        if override_name is not None:
+            function_to_test = override_name
+
+        if override_name == "sort_config_subsections":
+            new_config_lines = function(orginal_config_lines, optional_var, "    ", True)
+        else:
+            new_config_lines = function(orginal_config_lines, optional_var)
+
     expected_file = os.path.realpath(
         os.path.join(__location__, "expected", function_to_test, test_file)
     )
@@ -52,7 +61,7 @@ def test_remove_trailing_spaces(test_file: str):
     """
     Ensure that the function removes trailing spaces
     """
-    common_test(test_file, "remove_trailing_spaces")
+    common_test(test_file, remove_trailing_spaces.__name__)
 
 
 @pytest.mark.parametrize("test_file", get_files())
@@ -60,7 +69,8 @@ def test_delete_sections(test_file: str):
     """
     Ensure that the function removes user specified sections
     """
-    common_test(test_file, "delete_sections")
+    config_sections_to_delete = ["config vpn certificate local"]
+    common_test(test_file, delete_sections.__name__, config_sections_to_delete)
 
 
 @pytest.mark.parametrize("test_file", get_files())
@@ -68,7 +78,21 @@ def test_sort_config_sections(test_file: str):
     """
     Ensure that the function removes user specified sections
     """
-    common_test(test_file, "sort_config", CONFIG_SECTIONS_TO_SORT)
+    config_sections_to_sort = [
+        "config firewall address",
+        "config firewall addrgroup",
+        "config firewall internet-service-name",
+        "config router community-list",
+        "config router route-map",
+        "config system interface",
+        "config system zone",
+    ]
+    common_test(
+        test_file,
+        sort_config.__name__,
+        config_sections_to_sort,
+        "sort_config_sections",
+    )
 
 
 @pytest.mark.parametrize("test_file", get_files())
@@ -76,4 +100,12 @@ def test_sort_config_subsections(test_file: str):
     """
     Ensure that the function removes user specified sections
     """
-    common_test(test_file, "sort_config", CONFIG_SUBSECTIONS_TO_SORT)
+    config_subsections_to_sort = {
+        "config router bgp": ["config neighbor", "config network"]
+    }
+    common_test(
+        test_file,
+        sort_config.__name__,
+        config_subsections_to_sort,
+        "sort_config_subsections",
+    )

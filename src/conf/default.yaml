@@ -9,9 +9,9 @@ config_sections_to_sort:
   - config system zone
 
 config_subsections_to_sort:
-  - config router bgp:
-      - config neighbor
-      - config network
+  config router bgp:
+    - config neighbor
+    - config network
 
 config_sections_to_delete:
   - config vpn certificate local

@@ -1,6 +1,5 @@
 import typer
 
-from src.constants import DST_FILE_PATH
 from src.utils import load_app_config, logging, read_file, write_file
 
 app_config = load_app_config()
@@ -85,19 +84,26 @@ def sort_section(sorted_config, config, config_section, indentation):
     append_sorted_sections(sorted_config, sorted_items, indentation, success_log_msg)
 
 
-def sort_subsection(sorted_config, config, config_section, indentation):
+def sort_subsection(
+    sorted_config: list[str],
+    config: list[str],
+    config_section: str,
+    indentation: str,
+    subsections: list[str],
+):
     while config and not config[0].startswith("config ") and config[0] != "end":
-        if config[0].strip() in config_section:
+        logging.info(f"TEST {subsections}")
+        if config[0].strip() in subsections:
             child_section_name = config.pop(0)
-            subsections = []
+            sorted_subsections = []
             while (
                 config
                 and not config[0].startswith(f"{indentation}config ")
                 and config[0] != "    end"
             ):
-                subsections.append(read_section(config, f"{indentation}    next"))
+                sorted_subsections.append(read_section(config, f"{indentation}    next"))
 
-            sorted_items, is_sorted = sort_config_sections(subsections)
+            sorted_items, is_sorted = sort_config_sections(sorted_subsections)
             sorted_config.append(child_section_name)
             success_log_msg = f"Section '{config_section}' SubSection '{child_section_name.strip()}' was {'SORTED' if is_sorted else 'NOT SORTED'}"
             append_sorted_sections(
@@ -110,7 +116,7 @@ def sort_subsection(sorted_config, config, config_section, indentation):
 
 def sort_config(
     config: list[str],
-    config_sections_to_sort: tuple,
+    config_sections_to_sort,
     indentation: str = "",
     is_subsection: bool = False,
 ) -> list[str]:
@@ -128,6 +134,7 @@ def sort_config(
                     config,
                     line,
                     indentation,
+                    config_sections_to_sort[line],
                 )
             else:
                 sort_section(sorted_config, config, line, indentation)
@@ -140,8 +147,15 @@ def sort_config(
 @app.command()
 def main(
     src_file_path: str = typer.Argument(None, help="Path to the source file"),
-    dst_file_path: str = typer.Option(app_config['destination_path'], "--dst_file_path", "-d", help="Path to the write file"),
-    verbosity: int = typer.Option(0, "-v", "--verbose", count=True, help="Enable level of verbose mode"),
+    dst_file_path: str = typer.Option(
+        app_config["destination_path"],
+        "--dst_file_path",
+        "-d",
+        help="Path to the write file",
+    ),
+    verbosity: int = typer.Option(
+        0, "-v", "--verbose", count=True, help="Enable level of verbose mode"
+    ),
 ):
     if verbosity >= 2:
         logging.getLogger().setLevel(logging.DEBUG)
@@ -149,11 +163,14 @@ def main(
         logging.getLogger().setLevel(logging.INFO)
 
     config_lines = read_file(src_file_path)
-    config_lines = delete_sections(config_lines, app_config["config_sections_to_delete"])
+    config_lines = delete_sections(
+        config_lines, app_config["config_sections_to_delete"]
+    )
     config_lines = remove_trailing_spaces(config_lines)
     config_lines = sort_config(config_lines, app_config["config_sections_to_sort"])
-    config_lines = sort_config(config_lines, app_config["config_subsections_to_sort"], "    ", True)
-
+    config_lines = sort_config(
+        config_lines, app_config["config_subsections_to_sort"], "    ", True
+    )
     write_file(config_lines, dst_file_path)
 
 

@@ -14,9 +14,10 @@ logger = logging.getLogger("FortiCleaner")
 
 
 class DefaultConfigKey(Enum):
+    CONFIG_SECTIONS_TO_DELETE = []
     CONFIG_SECTIONS_TO_SORT = []
     CONFIG_SUBSECTIONS_TO_SORT = []
-    CONFIG_SECTIONS_TO_DELETE = []
+    DESTINATION_PATH = "sorted_config.cfg"
     FORTIOS_CONFIG_FILENAME_REGEX = "(.*).cfg"
 
 

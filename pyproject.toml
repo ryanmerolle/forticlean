@@ -37,6 +37,7 @@ ruff = "*"
 sourcery-analytics = "*"
 #sourcery-cli = "*"
 toml = "*"
+typer-cli = "*"
 yamllint = "*"
 
 [build-system]

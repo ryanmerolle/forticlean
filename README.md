@@ -13,29 +13,49 @@
 
 Clone the repo, move to the directory & run one of the below:
 
-```bash
-$ python3 forticlean.py
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO File 'config.cfg' opened successfully
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config vpn certificate local' was DELETED.
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Removed trailing space(s) from 2 lines.
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config system zone' was NOT SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config system interface' was NOT SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config firewall internet-service-name' was SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config router bgp' SubSection 'config neighbor' was SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config router bgp' SubSection 'config network' was SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO File 'sorted_config.cfg' written successfully
+**Usage**:
+
+```console
+$ main [OPTIONS] [SRC_FILE_PATH]
 ```
 
-Object Oriented Version
+**Arguments**:
+
+* `[SRC_FILE_PATH]`: Path to the source file
+
+**Options**:
+
+* `-d, --dst_file_path TEXT`: Path to the write file  [default: sorted_config.cfg]
+* `-v, --verbose`: Enable level of verbose mode  [default: 0]
+* `--install-completion`: Install completion for the current shell.
+* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
+* `--help`: Show this message and exit.
+
 ```bash
-$ python3 forticlean_oop.py
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO File 'config.cfg' opened successfully
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config vpn certificate local' was DELETED.
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Removed trailing space(s) from 2 lines.
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config system zone' was NOT SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config system interface' was NOT SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config firewall internet-service-name' was SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config router bgp' SubSection 'config neighbor' was SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO Section 'config router bgp' SubSection 'config network' was SORTED
-2023-07-17 21:02:08 69ae9934f761 root[15547] INFO File 'sorted_config.cfg' written successfully
+$ python3 src/main.py config.cfg
+
+```
+
+**Verbose Mode (1 level)**
+```bash
+$ python3 src/main.py config.cfg -v
+[13:42:07] INFO     Section 'config vpn certificate local' was DELETED.                                                                               main.py:27
+           INFO     Removed trailing space(s) from 0 lines.                                                                                           main.py:40
+           INFO     Section 'config system zone' was NOT SORTED                                                                                       main.py:70
+           INFO     Section 'config system interface' was NOT SORTED                                                                                  main.py:70
+           INFO     Section 'config firewall internet-service-name' was SORTED                                                                        main.py:70
+```
+
+**Verbose Mode (2 levels)**
+```bash
+$ python3 src/main.py config.cfg -vv
+[13:42:48] DEBUG    Config 'src/conf/default.yaml' opened successfully                                                                               utils.py:57
+           DEBUG    Key 'FORTIOS_CONFIG_FILENAME_REGEX' NOT in the config file. Defaulting to (.*).cfg.                                              utils.py:63
+           DEBUG    File 'config.cfg' opened successfully                                                                                            utils.py:26
+           INFO     Section 'config vpn certificate local' was DELETED.                                                                               main.py:27
+           INFO     Removed trailing space(s) from 0 lines.                                                                                           main.py:40
+           INFO     Section 'config system zone' was NOT SORTED                                                                                       main.py:70
+           INFO     Section 'config system interface' was NOT SORTED                                                                                  main.py:70
+           INFO     Section 'config firewall internet-service-name' was SORTED                                                                        main.py:70
+           DEBUG    File 'sorted_config.cfg' written successfully                                                                                    utils.py:38
 ```

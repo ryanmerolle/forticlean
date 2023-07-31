@@ -3,6 +3,8 @@ import typer
 from src.constants import DST_FILE_PATH
 from src.utils import load_app_config, logging, read_file, write_file
 
+app_config = load_app_config()
+
 app = typer.Typer(
     help="Clean & sort FortiOS config files.",
     add_completion=True,
@@ -138,16 +140,13 @@ def sort_config(
 @app.command()
 def main(
     src_file_path: str = typer.Argument(None, help="Path to the source file"),
-    dst_file_path: str = typer.Option(DST_FILE_PATH, "--dst_file_path", "-d", help="Path to the write file"),
+    dst_file_path: str = typer.Option(app_config['destination_path'], "--dst_file_path", "-d", help="Path to the write file"),
     verbosity: int = typer.Option(0, "-v", "--verbose", count=True, help="Enable level of verbose mode"),
 ):
     if verbosity >= 2:
         logging.getLogger().setLevel(logging.DEBUG)
     elif verbosity >= 1:
         logging.getLogger().setLevel(logging.INFO)
-
-    app_config = load_app_config()  # Load the app configuration
-
 
     config_lines = read_file(src_file_path)
     config_lines = delete_sections(config_lines, app_config["config_sections_to_delete"])
@@ -159,5 +158,4 @@ def main(
 
 
 if __name__ == "__main__":
-
     app()

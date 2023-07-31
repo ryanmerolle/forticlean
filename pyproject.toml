@@ -17,6 +17,7 @@ classifiers = [
 python = "^3.9"
 typer = {extras = ["all"], version = "*"}
 rich = "*"
+pyyaml = "*"
 
 [tool.poetry.scripts]
 forticlean = "src.main:app"

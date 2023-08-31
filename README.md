@@ -1,5 +1,15 @@
 # FORTICLEAN
 
+## Description
+FortiClean is a CLI tool designed for FortiOS configuration file management for better readability and comparision.
+Built with Python & leverages the power of the typer library, this utility streamlines the process of:
+
+- Trimming Trailing Spaces: Say goodbye to unwanted spaces at the end of your config lines that complicate diffs, but do not affect the configuration.
+- Removing Specific Sections: Clean up your config file by specifying & deleting sections do not wish to save. A handy feature for decluttering and maintaining a streamlined configuration setup.
+- Sorting Config Sections & Subsections: Enhance readability & structure by sorting specified config sections for enhanced readbility. It is recommended you do not sort config sections like firewall policy where order matters.
+
+Unlike other network operatin systems, sections where config order does not matter is hapazardly saved in the order the config was entered making automated & manual diff operations challenging
+
 ## Features
 
 - Trim spaces at the end of a line
@@ -8,6 +18,9 @@
 - Sort config sections 1 level down
 - Colored Logs
 - Command line arguments to specify config, path, etc **COMING SOON**
+- Prevent or WARN on the sorting of sections where order matters **COMING SOON**
+- Use jsonschemea to warn of config file errors **COMING SOON**
+- Use jsonschema in tests **COMING SOON**
 
 ## Getting Started
 

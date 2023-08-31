@@ -3,6 +3,8 @@ import typer
 
 from src.utils import load_app_config, logging, read_file, write_file
 
+CONFIG_LINE_PREFIX = "config "
+
 app_config = load_app_config()
 
 app = typer.Typer(
@@ -18,14 +20,17 @@ def delete_sections(config_lines: list[str], sections_to_delete: list[str] = [])
     delete_line = False
 
     for line in config_lines:
-        if line in sections_to_delete:
+        if (
+            line.startswith(CONFIG_LINE_PREFIX)
+            and line[len(CONFIG_LINE_PREFIX) :] in sections_to_delete
+        ):
             delete_line = True
             section = line
             continue
 
         if line == "end" and delete_line:
             delete_line = False
-            logging.info(f"Section '{section}' was DELETED.")
+            logging.info(f"Section config '{section}' was DELETED.")
             continue
 
         if not delete_line:
@@ -83,7 +88,9 @@ def sort_section(sorted_config, config, config_section, indentation):
 
     sorted_items, is_sorted = sort_config_sections(sections)
 
-    success_log_msg = f"Section '{config_section}' was {'SORTED' if is_sorted else 'NOT SORTED'}"
+    success_log_msg = (
+        f"Section config '{config_section}' was {'SORTED' if is_sorted else 'NOT SORTED'}"
+    )
     append_sorted_sections(sorted_config, sorted_items, indentation, success_log_msg)
 
 
@@ -97,7 +104,11 @@ def sort_subsection(
     """Sort a subsection from the FortiOS config file."""
     while config and not config[0].startswith("config ") and config[0] != "end":
         logging.info(f"TEST {subsections}")
-        if config[0].strip() in subsections:
+        line = config[0]
+        if (
+            line.strip().startswith(CONFIG_LINE_PREFIX)
+            and line.strip()[len(CONFIG_LINE_PREFIX) :] in subsections
+        ):
             child_section_name = config.pop(0)
             sorted_subsections = []
             while (
@@ -110,7 +121,7 @@ def sort_subsection(
             sorted_items, is_sorted = sort_config_sections(sorted_subsections)
             sorted_config.append(child_section_name)
             success_log_msg = (
-                f"Section '{config_section}' SubSection '{child_section_name.strip()}' ",
+                f"Section config '{config_section}' SubSection '{child_section_name.strip()}' ",
                 f"was {'SORTED' if is_sorted else 'NOT SORTED'}",
             )
             append_sorted_sections(sorted_config, sorted_items, indentation, success_log_msg)
@@ -129,8 +140,10 @@ def sort_config(
     sorted_config = []
     while config:
         line = config[0]
-        if line in config_sections_to_sort:
-            line = line
+        if (
+            line.startswith(CONFIG_LINE_PREFIX)
+            and line[len(CONFIG_LINE_PREFIX) :] in config_sections_to_sort
+        ):
             sorted_config.append(line)
             config.pop(0)
 
@@ -140,7 +153,7 @@ def sort_config(
                     config,
                     line,
                     indentation,
-                    config_sections_to_sort[line],
+                    config_sections_to_sort[line[len(CONFIG_LINE_PREFIX) :]],
                 )
             else:
                 sort_section(sorted_config, config, line, indentation)

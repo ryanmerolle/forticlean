@@ -1,17 +1,17 @@
 ---
 config_sections_to_sort:
-  - config firewall address
-  - config firewall addrgroup
-  - config firewall internet-service-name
-  - config router community-list
-  - config router route-map
-  - config system interface
-  - config system zone
+  - firewall address
+  - firewall addrgroup
+  - firewall internet-service-name
+  - router community-list
+  - router route-map
+  - system interface
+  - system zone
 
 config_subsections_to_sort:
-  config router bgp:
-    - config neighbor
-    - config network
+  router bgp:
+    - neighbor
+    - network
 
 config_sections_to_delete:
-  - config vpn certificate local
+  - vpn certificate local

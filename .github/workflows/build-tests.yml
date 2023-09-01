@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Build-Tests
 
 on:
   push:
@@ -65,7 +65,7 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest -v
+          poetry run pytest -v --cov
 
       - name: Check application
         run: |

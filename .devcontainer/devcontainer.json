@@ -56,7 +56,8 @@
           "/workspaces/forticlean",
           "/workspaces/forticlean/.venv/lib/python3.11/site-packages"
         ],
-        "python.analysis.typeCheckingMode": "strict",
+        "python.pyright.typeCheckingMode": "basic",
+        "python.analysis.typeCheckingMode": "basic",
         "python.autoComplete.extraPaths": [
           "/workspaces/forticlean",
           "/workspaces/forticlean/.venv/lib/python3.11/site-packages"

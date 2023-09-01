@@ -15,9 +15,10 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-typer = {extras = ["all"], version = "*"}
-rich = "*"
+jsonschema = "*"
 pyyaml = "*"
+rich = "*"
+typer = {extras = ["all"], version = "*"}
 
 [tool.poetry.scripts]
 forticlean = "src.main:app"
@@ -39,6 +40,8 @@ sourcery-analytics = "*"
 toml = "*"
 typer-cli = "*"
 yamllint = "*"
+pytest-cov = "*"
+coverage = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -82,3 +85,9 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 log_cli = true
 log_cli_level = "WARN"
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+omit = ["tests/*"]

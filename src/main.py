@@ -1,4 +1,6 @@
 """Main file that gets called my forticlean."""
+from typing import Union
+
 import typer
 
 from src.utils import load_app_config, logging, read_file, write_file
@@ -13,7 +15,7 @@ app = typer.Typer(
 )
 
 
-def delete_sections(config_lines: list[str], sections_to_delete: list[str] = []) -> list[str]:
+def delete_sections(config_lines: list[str], sections_to_delete: list[str]) -> list[str]:
     """Delete sections from the FortiOS config file."""
     new_lines = []
     section = ""
@@ -22,7 +24,7 @@ def delete_sections(config_lines: list[str], sections_to_delete: list[str] = [])
     for line in config_lines:
         if (
             line.startswith(CONFIG_LINE_PREFIX)
-            and line[len(CONFIG_LINE_PREFIX) :] in sections_to_delete
+            and line[len(CONFIG_LINE_PREFIX):] in sections_to_delete
         ):
             delete_line = True
             section = line
@@ -70,7 +72,7 @@ def read_section(lines: list[str], section_end: str = "    next"):
 
 
 def append_sorted_sections(
-    sorted_config: list, sorted_items: list, indentation: str, success_log_msg: str
+    sorted_config: list[str], sorted_items: list[str], indentation: str, success_log_msg: str
 ):
     """Append the sorted sections to the FortiOS config file."""
     for item in sorted_items:
@@ -80,7 +82,9 @@ def append_sorted_sections(
     logging.info(success_log_msg)
 
 
-def sort_section(sorted_config, config, config_section, indentation):
+def sort_section(
+    sorted_config: list[str], config: list[str], config_section: str, indentation: str
+):
     """Sort a section from the FortiOS config file."""
     sections = []
     while config and not config[0].startswith("config ") and config[0] != "end":
@@ -107,7 +111,7 @@ def sort_subsection(
         line = config[0]
         if (
             line.strip().startswith(CONFIG_LINE_PREFIX)
-            and line.strip()[len(CONFIG_LINE_PREFIX) :] in subsections
+            and line.strip()[len(CONFIG_LINE_PREFIX):] in subsections
         ):
             child_section_name = config.pop(0)
             sorted_subsections = []
@@ -132,7 +136,7 @@ def sort_subsection(
 
 def sort_config(
     config: list[str],
-    config_sections_to_sort,
+    config_sections_to_sort: Union[dict[str, list[str]], list[str]],
     indentation: str = "",
     is_subsection: bool = False,
 ) -> list[str]:
@@ -142,7 +146,7 @@ def sort_config(
         line = config[0]
         if (
             line.startswith(CONFIG_LINE_PREFIX)
-            and line[len(CONFIG_LINE_PREFIX) :] in config_sections_to_sort
+            and line[len(CONFIG_LINE_PREFIX):] in config_sections_to_sort
         ):
             sorted_config.append(line)
             config.pop(0)
@@ -153,7 +157,7 @@ def sort_config(
                     config,
                     line,
                     indentation,
-                    config_sections_to_sort[line[len(CONFIG_LINE_PREFIX) :]],
+                    config_sections_to_sort[line[len(CONFIG_LINE_PREFIX):]],
                 )
             else:
                 sort_section(sorted_config, config, line, indentation)

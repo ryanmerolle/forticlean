@@ -1,0 +1,32 @@
+---
+$schema: http://json-schema.org/draft-07/schema#
+type: object
+definitions:
+  config_section_array:
+    type: array
+    items:
+      allOf:
+        - type: string
+        - pattern: "^[a-z]"
+      not:
+        #type: string
+        pattern: "^(config )"
+    minProperties: 0
+  #config_pattern:
+  #  pattern: "^(?!config )[a-z].*"
+properties:
+  config_sections_to_delete:
+    $ref: "#/definitions/config_section_array"
+  config_sections_to_sort:
+    $ref: "#/definitions/config_section_array"
+  config_subsections_to_sort:
+    type: object
+    patternProperties:
+      "^(?!config )[a-z].*":
+        $ref: "#/definitions/config_section_array"
+    additionalProperties: false
+    minProperties: 0
+required:
+  - config_sections_to_delete
+  - config_sections_to_sort
+  - config_subsections_to_sort

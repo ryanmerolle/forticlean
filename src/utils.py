@@ -2,9 +2,15 @@
 import logging
 from enum import Enum
 from pathlib import Path
+from typing import Any
 
 import yaml
+from jsonschema import Draft7Validator
 from rich.logging import RichHandler
+
+# Constants
+CONFIG_SCHEMA_PATH = Path("src/conf/config_schema.yaml")
+
 
 # Logging setup
 logging.basicConfig(
@@ -46,6 +52,57 @@ def write_file(content: list[str], file_path_to_write_to: str):
         logger.error(f"Error: Permission denied to open file '{file_path_to_write_to}'")
 
 
+def load_config_schema(path: Path) -> dict:
+    """Load the schema from a given path."""
+    with path.open("r") as schema_file:
+        return yaml.safe_load(schema_file)
+
+
+def log_validation_error(error):
+    """Log the validation error."""
+    data_path = ".".join(map(str, error.path))
+    invalid_value = error.instance
+
+    if error.validator == "type":
+        expected_type = error.schema["type"].upper()
+        invalid_type = type(invalid_value).__name__.upper()
+        logger.error(
+            f"Config validation error at '{data_path}': Invalid value '{invalid_value}' "
+            f"of type '{invalid_type}' when '{expected_type}' was expected"
+        )
+    elif error.validator == "pattern":
+        pattern = error.schema["pattern"]
+        logger.error(
+            f"Config validation error at '{data_path}': Value '{invalid_value}' "
+            f"should match the pattern '{pattern}'"
+        )
+    elif error.validator == "not":
+        not_pattern = error.schema["not"]["pattern"]
+        logger.error(
+            f"Config validation error at '{data_path}': Value '{invalid_value}' "
+            f"should NOT match the pattern '{not_pattern}'"
+        )
+    else:
+        logger.error(error)
+
+
+def validate_config(config: dict[str, Any]) -> None:
+    """Validate the configuration against a JSON schema."""
+    schema = load_config_schema(CONFIG_SCHEMA_PATH)
+    validator = Draft7Validator(schema)
+    errors = validator.iter_errors(config)
+
+    has_errors = False
+    for error in errors:
+        log_validation_error(error)
+        has_errors = True
+
+    if has_errors:
+        exit(1)
+
+    logger.debug("Configuration is valid")
+
+
 def load_app_config() -> dict[str, str]:
     """Load the forticlean config file."""
     # Load the config file if found in the path the script is being called from
@@ -64,10 +121,11 @@ def load_app_config() -> dict[str, str]:
     logger.debug(f"Config '{config_path}' opened successfully")
 
     # use an enum to define the default keys and values
-
     for key in DefaultConfigKey:
         if key.name.lower() not in config:
             logging.debug(f"Key '{key.name}' NOT in the config file. Defaulting to {key.value}.")
             config[key.name.lower()] = key.value
+
+    validate_config(config)
 
     return config

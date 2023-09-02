@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import Optional
+from typing import Optional, Union
 
 import pytest
 
@@ -22,7 +22,7 @@ def get_files(directory: str = "./tests/inputs") -> list[str]:
 def common_test(
     test_file: str,
     function_to_test: str,
-    optional_var: Optional = None,
+    optional_var: Optional[Union[dict[str, list[str]], list[str]]] = None,
     override_name: Optional[str] = None,
 ):
     """Define a common test for all functions."""

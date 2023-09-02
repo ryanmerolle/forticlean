@@ -1,4 +1,11 @@
 # FORTICLEAN
+[![CodeQL](https://github.com/ryanmerolle/forticlean/workflows/codeql/badge.svg)](https://github.com/ryanmerolle/forticlean/actions/workflows/codeql-analysis.yml)
+[![GitHub Build Tests](https://github.com/ryanmerolle/forticlean/workflows/build-tests/badge.svg)](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml)
+[![Build Tests](https://img.shields.io/github/actions/workflow/status/ryanmerolle/forticlean/build-tests)](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml)
+[![Dependency Review](https://img.shields.io/github/actions/workflow/status/ryanmerolle/forticlean/build-tests)](https://github.com/ryanmerolle/forticlean/actions/workflows/dependency-review.yml)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/forticlean)
+
+
 
 ## Description
 FortiClean is a CLI tool designed for FortiOS configuration file management for better readability and comparision.

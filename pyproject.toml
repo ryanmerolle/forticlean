@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forticlean"
-version = "0.0.0"  # this is a placeholder - version is set in the CI on release
+version = "1.0.0"  # this is a placeholder - version is set in the CI on release
 description = "Clean & sort FortiOS config files."
 homepage = "https://github.com/ryanmerolle/forticlean"
 documentation = "https://github.com/ryanmerolle/forticlean"

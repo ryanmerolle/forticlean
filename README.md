@@ -23,10 +23,10 @@ Unlike other network operatin systems, sections where config order does not matt
 - Sort config sections
 - Sort config sections 1 level down
 - Colored Logs
+- Use jsonschemea to warn of config file errors
+- Use jsonschema in tests
 - Command line arguments to specify config, path, etc **COMING SOON**
 - Prevent or WARN on the sorting of sections where order matters **COMING SOON**
-- Use jsonschemea to warn of config file errors **COMING SOON**
-- Use jsonschema in tests **COMING SOON**
 
 ## Getting Started
 

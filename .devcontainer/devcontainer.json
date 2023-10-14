@@ -71,10 +71,6 @@
           "/workspaces/forticlean",
           "/workspaces/forticlean/.venv/lib/python3.11/site-packages"
         ],
-        "python.formatting.provider": "black",
-        "python.linting.enabled": true,
-        "python.linting.lintOnSave": false,
-        "python.linting.pylintEnabled": true,
         "python.pythonPath": "/workspaces/forticlean/.venv/bin/python3",
         "python.terminal.activateEnvironment": true,
         "python.testing.pytestArgs": ["tests"],

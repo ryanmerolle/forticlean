@@ -1,13 +1,13 @@
 # FORTICLEAN
+
 [![CodeQL](https://github.com/ryanmerolle/forticlean/workflows/codeql/badge.svg)](https://github.com/ryanmerolle/forticlean/actions/workflows/codeql-analysis.yml)
 [![GitHub Build Tests](https://github.com/ryanmerolle/forticlean/workflows/build-tests/badge.svg)](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml)
 [![Build Tests](https://img.shields.io/github/actions/workflow/status/ryanmerolle/forticlean/build-tests)](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml)
 [![Dependency Review](https://img.shields.io/github/actions/workflow/status/ryanmerolle/forticlean/build-tests)](https://github.com/ryanmerolle/forticlean/actions/workflows/dependency-review.yml)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/forticlean)
 
-
-
 ## Description
+
 FortiClean is a CLI tool designed for FortiOS configuration file management for better readability and comparision.
 Built with Python & leverages the power of the typer library, this utility streamlines the process of:
 
@@ -33,37 +33,37 @@ Unlike other network operatin systems, sections where config order does not matt
 
 Clone the repo, move to the directory & run one of the below:
 
-**Configuration**:
+### Configuration
 
 In order of precedence:
 1.) .forticleaner in the directory you are running the script from
 2.) .forticleaner in your home directory
 3.) Default config file included with the package
 
-**Usage**:
+### Usage
 
 ```console
-$ main [OPTIONS] [SRC_FILE_PATH]
+main [OPTIONS] [SRC_FILE_PATH]
 ```
 
-**Arguments**:
+### Arguments
 
-* `[SRC_FILE_PATH]`: Path to the source file
+- `[SRC_FILE_PATH]`: Path to the source file
 
-**Options**:
+### Options
 
-* `-d, --dst_file_path TEXT`: Path to the write file  [default: sorted_config.cfg]
-* `-v, --verbose`: Enable level of verbose mode  [default: 0]
-* `--install-completion`: Install completion for the current shell.
-* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
-* `--help`: Show this message and exit.
+- `-d, --dst_file_path TEXT`: Path to the write file  [default: sorted_config.cfg]
+- `-v, --verbose`: Enable level of verbose mode  [default: 0]
+- `--install-completion`: Install completion for the current shell.
+- `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
+- `--help`: Show this message and exit.
 
 ```bash
-$ python3 src/main.py config.cfg
-
+python3 src/main.py config.cfg
 ```
 
-**Verbose Mode (1 level)**
+### Verbose Mode (1 level)
+
 ```bash
 $ python3 src/main.py config.cfg -v
 [13:42:07] INFO     Section 'config vpn certificate local' was DELETED.                                                                               main.py:27
@@ -73,7 +73,8 @@ $ python3 src/main.py config.cfg -v
            INFO     Section 'config firewall internet-service-name' was SORTED                                                                        main.py:70
 ```
 
-**Verbose Mode (2 levels)**
+## Verbose Mode (2 levels)
+
 ```bash
 $ python3 src/main.py config.cfg -vv
 [13:42:48] DEBUG    Config 'src/conf/default.yaml' opened successfully                                                                               utils.py:57

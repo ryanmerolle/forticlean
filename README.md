@@ -1,9 +1,8 @@
 # FORTICLEAN
 
-[![CodeQL](https://github.com/ryanmerolle/forticlean/workflows/codeql/badge.svg)](https://github.com/ryanmerolle/forticlean/actions/workflows/codeql-analysis.yml)
-[![GitHub Build Tests](https://github.com/ryanmerolle/forticlean/workflows/build-tests/badge.svg)](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml)
-[![Build Tests](https://img.shields.io/github/actions/workflow/status/ryanmerolle/forticlean/build-tests)](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml)
-[![Dependency Review](https://img.shields.io/github/actions/workflow/status/ryanmerolle/forticlean/build-tests)](https://github.com/ryanmerolle/forticlean/actions/workflows/dependency-review.yml)
+[![Build Tests](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml/badge.svg?event=push)](https://github.com/ryanmerolle/forticlean/actions/workflows/build-tests.yml)
+[![CodQL Analysis](https://github.com/ryanmerolle/forticlean/actions/workflows/codeql-analysis.yml/badge.svg?event=push)](https://github.com/ryanmerolle/forticlean/actions/workflows/codeql-analysis.yml)
+[![Dependency Review](https://github.com/ryanmerolle/forticlean/actions/workflows/dependency-review.yml/badge.svg?event=push)](https://github.com/ryanmerolle/forticlean/actions/workflows/dependency-review.yml)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/forticlean)
 
 ## Description
@@ -24,10 +23,10 @@ Unlike other network operatin systems, sections where config order does not matt
 - Sort config sections
 - Sort config sections 1 level down
 - Colored Logs
+- Use jsonschemea to warn of config file errors
+- Use jsonschema in tests
 - Command line arguments to specify config, path, etc **COMING SOON**
 - Prevent or WARN on the sorting of sections where order matters **COMING SOON**
-- Use jsonschemea to warn of config file errors **COMING SOON**
-- Use jsonschema in tests **COMING SOON**
 
 ## Getting Started
 

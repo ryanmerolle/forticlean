@@ -21,27 +21,27 @@ def get_files(directory: str = "./tests/inputs") -> list[str]:
 
 def common_test(
     test_file: str,
-    function_to_test: str,
+    pkg_function_to_test: str,
     optional_var: Optional[Union[dict[str, list[str]], list[str]]] = None,
     override_name: Optional[str] = None,
 ):
     """Define a common test for all functions."""
 
     orginal_config_lines = read_file(os.path.join(__location__, "inputs", test_file))
-    function = globals()[function_to_test]
+    pkg_function = globals()[pkg_function_to_test]
     if optional_var is None:
-        new_config_lines = function(orginal_config_lines)
+        new_config_lines = pkg_function(orginal_config_lines)
     else:
         if override_name is not None:
-            function_to_test = override_name
+            pkg_function_to_test = override_name
 
         if override_name == "sort_config_subsections":
-            new_config_lines = function(orginal_config_lines, optional_var, "    ", True)
+            new_config_lines = pkg_function(orginal_config_lines, optional_var, "    ", True)
         else:
-            new_config_lines = function(orginal_config_lines, optional_var)
+            new_config_lines = pkg_function(orginal_config_lines, optional_var)
 
     expected_file = os.path.realpath(
-        os.path.join(__location__, "expected", function_to_test, test_file)
+        os.path.join(__location__, "expected", pkg_function_to_test, test_file)
     )
     try:
         with open(os.path.join(__location__, expected_file), "r") as f:

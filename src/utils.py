@@ -9,8 +9,8 @@ from jsonschema import Draft7Validator
 from rich.logging import RichHandler
 
 # Constants
-CONFIG_SCHEMA_PATH = Path("src/conf/config_schema.yaml")
-
+BASE_DIR = Path(__file__).parent
+CONFIG_SCHEMA_PATH = BASE_DIR / "conf/config_schema.yaml"
 
 # Logging setup
 logging.basicConfig(
@@ -53,9 +53,15 @@ def write_file(content: list[str], file_path_to_write_to: str):
 
 
 def load_config_schema(path: Path) -> dict:
-    """Load the schema from a given path."""
-    with path.open("r") as schema_file:
-        return yaml.safe_load(schema_file)
+    try:
+        with path.open("r") as schema_file:
+            return yaml.safe_load(schema_file)
+    except FileNotFoundError:
+        logger.error(f"Schema file '{path}' not found.")
+        exit(1)
+    except Exception as e:
+        logger.error(f"Error reading schema file '{path}': {e}")
+        exit(1)
 
 
 def log_validation_error(error):

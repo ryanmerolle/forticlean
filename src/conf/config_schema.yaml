@@ -20,12 +20,16 @@ properties:
   config_sections_to_sort:
     $ref: "#/definitions/config_section_array"
   config_subsections_to_sort:
-    type: object
-    patternProperties:
-      "^(?!config )[a-z].*":
-        $ref: "#/definitions/config_section_array"
-    additionalProperties: false
-    minProperties: 0
+    anyOf:
+      - type: object
+        patternProperties:
+          "^(?!config )[a-z].*":
+            $ref: "#/definitions/config_section_array"
+        additionalProperties: false
+      - type: array
+        minItems: 0
+        maxItems: 0
+
 required:
   - config_sections_to_delete
   - config_sections_to_sort

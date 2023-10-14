@@ -24,7 +24,7 @@ def delete_sections(config_lines: list[str], sections_to_delete: list[str]) -> l
     for line in config_lines:
         if (
             line.startswith(CONFIG_LINE_PREFIX)
-            and line[len(CONFIG_LINE_PREFIX):] in sections_to_delete
+            and line[len(CONFIG_LINE_PREFIX) :] in sections_to_delete
         ):
             delete_line = True
             section = line
@@ -111,7 +111,7 @@ def sort_subsection(
         line = config[0]
         if (
             line.strip().startswith(CONFIG_LINE_PREFIX)
-            and line.strip()[len(CONFIG_LINE_PREFIX):] in subsections
+            and line.strip()[len(CONFIG_LINE_PREFIX) :] in subsections
         ):
             child_section_name = config.pop(0)
             sorted_subsections = []
@@ -146,7 +146,7 @@ def sort_config(
         line = config[0]
         if (
             line.startswith(CONFIG_LINE_PREFIX)
-            and line[len(CONFIG_LINE_PREFIX):] in config_sections_to_sort
+            and line[len(CONFIG_LINE_PREFIX) :] in config_sections_to_sort
         ):
             sorted_config.append(line)
             config.pop(0)
@@ -157,7 +157,7 @@ def sort_config(
                     config,
                     line,
                     indentation,
-                    config_sections_to_sort[line[len(CONFIG_LINE_PREFIX):]],
+                    config_sections_to_sort[line[len(CONFIG_LINE_PREFIX) :]],
                 )
             else:
                 sort_section(sorted_config, config, line, indentation)

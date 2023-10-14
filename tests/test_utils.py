@@ -1,9 +1,6 @@
 import os
-from pathlib import Path
 
-import pytest
-
-from src.utils import load_app_config, read_file, validate_config, write_file
+from src.utils import load_app_config, read_file, write_file
 
 
 def test_read_file(tmp_path):
@@ -29,14 +26,16 @@ def test_load_app_config(tmp_path):
     os.chdir(tmp_path)
     # Create a temporary config file with some content
     config_path = tmp_path / ".forticleaner"
-    config_path.write_text("config_sections_to_delete:\n  - section1\nconfig_sections_to_sort:\n  - section2\nconfig_subsections_to_sort: []\n")
-    
+    config_path.write_text(
+        "config_sections_to_delete:\n  - section1\nconfig_sections_to_sort:\n  - section2\nconfig_subsections_to_sort: []\n"
+    )
+
     file_contents = config_path.read_text()
     print(f"Contents of the config file:\n{file_contents}")
     print(tmp_path)
     current_path = os.getcwd()
     print(f"Current Path: {current_path}")
-    
+
     # Test that the config is loaded correctly
     assert load_app_config() == {
         "config_sections_to_delete": ["section1"],
@@ -47,7 +46,7 @@ def test_load_app_config(tmp_path):
     }
 
 
-#def test_validate_config(tmp_path):
+# def test_validate_config(tmp_path):
 #    # Create a temporary config file with some content
 #    config_path = tmp_path / "test.yaml"
 #    config_path.write_text("config_sections_to_delete:\n  - section1\n  - section2\n")
